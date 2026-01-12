@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->integer('subtotal');
             $table->integer('tax');
-            $table->integer('garnd_total');
+            $table->integer('grand_total');
             $table->enum('status', ['pending', 'settlement', 'cooked']);
             $table->integer('table_number');
             $table->enum('payment_method', ['qris', 'tunai']);
