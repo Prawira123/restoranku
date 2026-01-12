@@ -22,10 +22,10 @@ class Item extends Model
     ];
 
     public function category(){
-        $this->belongsTo(Category::class, 'category_id');
+       return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function order_items(){
-        $this->hasMany(OrderItem::class);
+       return $this->hasMany(OrderItem::class);
     }
 }

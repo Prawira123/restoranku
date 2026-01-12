@@ -52,10 +52,10 @@ class User extends Authenticatable
     }
 
     public function orders(){
-        $this->hasMany(Order::class);
+        return $this->hasMany(Order::class);
     }
 
     public function role(){
-        $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class);
     }
 }

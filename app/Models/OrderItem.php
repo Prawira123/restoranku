@@ -21,10 +21,10 @@ class OrderItem extends Model
     ];
 
     public function order(){
-        $this->belongsTo(Order::class);
+         return $this->belongsTo(Order::class);
     }
 
     public function item(){
-        $this->belongsTo(Item::class);
+         return $this->belongsTo(Item::class);
     }
 }
