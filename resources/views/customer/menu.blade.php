@@ -1,5 +1,14 @@
 @extends('customer.layouts.master')
 
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Menu Kami</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item active text-primary">Silakan pilih menu favorit anda</li>
+    </ol>
+</div>
+<!-- Single Page Header End -->
+
 @section('content')
             <div class="container-fluid fruite py-5">
             <div class="container py-5">
@@ -30,4 +39,28 @@
                 </div>
             </div>
         </div>
+@endsection
+
+@section('script')
+    <script>
+        function addToCart(menuId){
+            fetch("{{ route('menu.cart.add') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({
+                    id: menuId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 @endsection
