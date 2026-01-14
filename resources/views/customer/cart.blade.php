@@ -8,13 +8,13 @@
         </ol>
     </div>
     @if(session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success justify-content-between" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif  
     @if(empty($cart))
-        <p class="text-center items-center mt-4 text-danger">Keranjang Anda kosong. Silakan tambahkan item ke keranjang Anda.</p>
+        <h5 class="text-center items-center mt-4 text-danger">Keranjang Anda kosong. Silakan tambahkan item ke keranjang Anda.</h5>
     @else
     <!-- Single Page Header End -->
     <div class="container-fluid py-5">
@@ -39,14 +39,14 @@
                         <div class="d-flex justify-content-end mb-3">
                             <a href="{{ route('menu.cart.clear') }}" class="btn btn-danger" onclick="return confirm('Apakah yakin untuk menghapus semua Menu di keranjang ini?');">Kosongkan Keranjang</a>
                         </div>
-                        @forelse ( $cart as $item )                        
+                        @foreach ( $cart as $item )                        
                         @php
                             $itemTotal = $item['price'] * $item['qty'];
                         @endphp
                             <tr>
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ $item['img'] }}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                        <img src="{{ asset(path: 'img_item_upload/'.$item['img']) }}" class="img-fluid rounded-circle" style="width: 100px; height: 90px; object-fit: cover;" alt="" onerror="this.onerror=null;this.src='{{ $item['img'] }}'">
                                     </div>
                                 </th>
                                 <td>
@@ -82,11 +82,7 @@
                         @php
                             $subTotal += $itemTotal;
                         @endphp
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center fw-bolder">Keranjang Anda kosong.</td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -98,7 +94,7 @@
                             <h2 class="display-6 mb-4">Total <span class="fw-normal">Pesanan</span></h2>
                             <div class="d-flex justify-content-between mb-4">
                                 <h5 class="mb-0 me-4">Subtotal</h5>
-                                <p class="mb-0">Rp.{{ number_format(($subTotal += $itemTotal), 2, ',', '.') }}</p>
+                                <p class="mb-0">Rp.{{ number_format($subTotal, 2, ',', '.') }}</p>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="mb-0 me-4">Pajak (10%)</p>
@@ -114,7 +110,7 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <div class="mb-0 mb-3">
-                            <a href="checkout.html" class="btn border-secondary py-3 text-primary text-uppercase mb-4" type="button">Lanjut ke Pembayaran</a>
+                            <a href="{{ route('menu.checkout') }}" class="btn border-secondary py-3 text-primary text-uppercase mb-4" type="button">Lanjut ke Pembayaran</a>
                         </div>
                     </div>
                 </div>

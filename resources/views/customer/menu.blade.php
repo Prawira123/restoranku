@@ -1,15 +1,20 @@
 @extends('customer.layouts.master')
 
-<!-- Single Page Header start -->
-<div class="container-fluid page-header py-5">
-    <h1 class="text-center text-white display-6">Menu Kami</h1>
-    <ol class="breadcrumb justify-content-center mb-0">
-        <li class="breadcrumb-item active text-primary">Silakan pilih menu favorit anda</li>
-    </ol>
-</div>
-<!-- Single Page Header End -->
-
 @section('content')
+            <!-- Single Page Header start -->
+            <div class="container-fluid page-header py-5">
+                <h1 class="text-center text-white display-6">Menu Kami</h1>
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item active text-primary">Silakan pilih menu favorit anda</li>
+                </ol>
+            </div>
+            <!-- Single Page Header End -->
+            @if(session('success'))
+                <div class="alert alert-success justify-content-between" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             <div class="container-fluid fruite py-5">
             <div class="container py-5">
                 <div class="row g-4">

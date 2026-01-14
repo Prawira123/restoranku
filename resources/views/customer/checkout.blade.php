@@ -12,20 +12,27 @@
 <div class="container-fluid py-5">
     <div class="container py-5">
         <h1 class="mb-4">Detail Pembayaran</h1>
-        <form action="#">
+        <form action="{{ route('menu.checkout.store') }}" id="checkout-form" method="POST">
+            @csrf
             <div class="row g-5">
                 <div class="col-md-12 col-lg-6 col-xl-6">
                     <div class="row">
-                        <div class="col-md-12 col-lg-6">
+                        <div class="col-md-12 col-lg-4">
                             <div class="form-item w-100">
                                 <label class="form-label my-3">Nama Lengkap<sup>*</sup></label>
-                                <input type="text" class="form-control" disabled required>
+                                <input type="text" name="fullname" class="form-control" placeholder="masukkan nama anda..."  required>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-6">
+                        <div class="col-md-12 col-lg-4">
                             <div class="form-item w-100">
                                 <label class="form-label my-3">Nomor WhatsApp<sup>*</sup></label>
-                                <input type="text" class="form-control" disabled required>
+                                <input type="text" name="no_tlp" class="form-control" placeholder="masukkan no anda..." required>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-4">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Nomor Meja<sup>*</sup></label>
+                                <input type="text" class="form-control" value="{{ $tableNumber ?? 'Tidak ada nomer meja'}}" disabled required>
                             </div>
                         </div>
                     </div>   
@@ -33,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <div class="form-item">
-                                <textarea name="text" class="form-control" spellcheck="false" cols="30" rows="5" placeholder="Catatan pesanan (Opsional)"></textarea>
+                                <textarea name="notes" class="form-control" spellcheck="false" cols="30" rows="5" placeholder="Catatan pesanan (Opsional)"></textarea>
                             </div>   
                         </div>
                     </div>
@@ -52,39 +59,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            <div class="d-flex align-items-center mt-2">
-                                                <img src="https://images.unsplash.com/photo-1591325418441-ff678baf78ef" class="img-fluid rounded-circle" style="width: 100px; height: 90px; object-fit: cover;" alt="">
-                                            </div>
-                                        </th>
-                                        <td class="py-5">Ichiraku Ramen</td>
-                                        <td class="py-5">Rp25.000,00</td>
-                                        <td class="py-5">1</td>
-                                        <td class="py-5">Rp25.000,00</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <div class="d-flex align-items-center mt-2">
-                                                <img src="https://images.unsplash.com/photo-1543392765-620e968d2162?q=80&w=1987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA==" class="img-fluid rounded-circle" style="width: 100px; height: 90px; object-fit: cover;" alt="">
-                                            </div>
-                                        </th>
-                                        <td class="py-5">Beef Burger</td>
-                                        <td class="py-5">Rp40.000,00</td>
-                                        <td class="py-5">1</td>
-                                        <td class="py-5">Rp40.000,00</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <div class="d-flex align-items-center mt-2">
-                                                <img src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc" class="img-fluid rounded-circle" style="width: 100px; height: 90px; object-fit: cover;" alt="">
-                                            </div>
-                                        </th>
-                                        <td class="py-5">Big Banana</td>
-                                        <td class="py-5">Rp20.000,00</td>
-                                        <td class="py-5">1</td>
-                                        <td class="py-5">Rp20.000,00</td>
-                                    </tr>
+                                    @php
+                                        $subTotal = 0;
+                                    @endphp
+                                    @foreach ($cart as $item) 
+                                    @php
+                                        $itemTotal = $item['price'] * $item['qty'];
+                                    @endphp                                   
+                                        <tr>
+                                            <th scope="row">
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <img src="{{ asset(path: 'img_item_upload/'.$item['img']) }}" class="img-fluid rounded-circle" style="width: 100px; height: 90px; object-fit: cover;" alt="" onerror="this.onerror=null;this.src='{{ $item['img'] }}'">
+                                                </div>
+                                            </th>
+                                            <td class="py-5">{{ $item['name'] }}</td>
+                                            <td class="py-5">Rp{{ number_format($item['price'], 2, ',', '.') }}</td>
+                                            <td class="py-5">{{ $item['qty'] }}</td>
+                                            <td class="py-5">Rp{{ number_format($itemTotal, 2, ',', '.') }}</td>
+                                        </tr>
+                                    @php
+                                        $subTotal += $itemTotal;
+                                    @endphp    
+                                    @endforeach  
                                 </tbody>
                             </table>
                         </div>
@@ -99,29 +95,29 @@
                                     <h3 class="display-6 mb-4">Total <span class="fw-normal">Pesanan</span></h3>
                                     <div class="d-flex justify-content-between mb-4">
                                         <h5 class="mb-0 me-4">Subtotal</h5>
-                                        <p class="mb-0">Rp85.000,00</p>
+                                        <p class="mb-0">Rp{{ number_format($subTotal, 2, ',', '.') }}</p>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <p class="mb-0 me-4">Pajak (10%)</p>
                                         <div class="">
-                                            <p class="mb-0">Rp8.500,00</p>
+                                            <p class="mb-0">Rp{{ number_format($subTotal * 0.1, 2, ',', '.') }}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                     <h4 class="mb-0 ps-4 me-4">Total</h4>
-                                    <h5 class="mb-0 pe-4">Rp93.500,00</h5>
+                                    <h5 class="mb-0 pe-4">Rp{{ number_format($subTotal + ($subTotal * 0.1), 2, ',', '.') }}</h5>
                                 </div>
 
                                 <div class="py-4 mb-4 d-flex justify-content-between">
                                     <h5 class="mb-0 ps-4 me-4">Metode Pembayaran</h5>
                                     <div class="mb-0 pe-4 mb-3 pe-5">
                                         <div class="form-check">
-                                            <input type="radio" class="form-check-input bg-primary border-0" id="qris" name="payment" value="qris">
+                                            <input type="radio" class="form-check-input bg-primary border-0" id="qris" name="payment_method" value="qris">
                                             <label class="form-check-label" for="qris">QRIS</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" class="form-check-input bg-primary border-0" id="cash" name="payment" value="tunai">
+                                            <input type="radio" class="form-check-input bg-primary border-0" id="cash" name="payment_method" value="tunai">
                                             <label class="form-check-label" for="cash">Tunai</label>
                                         </div>
                                     </div>
@@ -129,9 +125,8 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn border-secondary py-3 text-uppercase text-primary">Konfirmasi Pesanan</button> 
+                                <button type="submit" class="btn border-secondary py-3 text-uppercase text-primary">Konfirmasi Pesanan</button> 
                             </div>
-                        
                         </div>
                     </div>
                 </div>
