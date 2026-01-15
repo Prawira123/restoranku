@@ -156,8 +156,8 @@ class MenuController extends Controller
             $itemDetails[] = [
                 'id' => $item['id'],
                 'name' => substr($item['name'], 0, 100),
-                'price' => (int) $item['price'] + ($item['price'] * 0.1),
-                'qty' => $item['qty'],
+                'price' => (int) ($item['price'] + ($item['price'] * 0.1)),
+                'quantity' => $item['qty'],
             ];
         }
 
@@ -194,14 +194,60 @@ class MenuController extends Controller
         }
 
         Session::forget('cart');
+        if($order->payment_method == 'tunai'){
+            return redirect()->route('menu.success', ['orderId' => $order->order_code])->with('success', 'Pesanan berhasil dibuat! Terima kasih telah memesan.');
+        }else{
+            \Midtrans\Config::$serverKey = config('midtrans.server_key');
+            \Midtrans\Config::$isProduction = config('midtrans.is_production');
+            \Midtrans\Config::$isSanitized = true;
+            \Midtrans\Config::$is3ds = true;
 
-        return redirect()->route('menu.success')->with('success', 'Pesanan berhasil dibuat! Terima kasih telah memesan.');
+            $params = [
+                'transaction_details' =>[
+                    'order_id' => $order->order_code,
+                    'gross_amount' => (int) $order->grand_total,
+                ],
+                'item_details' => $itemDetails,
+                'customer_details' => [
+                    'fullname' => $user->fullname ?? 'Guest',
+                    'phone' => $user->phone,
+                ],
+                'payment_type' => 'qris',
+            ];
+
+            try{
+                $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+                return response()->json([
+                    'status' => 'success',
+                    'snap_token' => $snapToken,
+                    'order_code' => $order->order_code,
+                ], 200);
+            }catch(\Exception $e){
+                Log::error('Midtrans Snap Token Error: ' . $e->getMessage());
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Gagal mendapatkan membuat pesanan. Silahkan coba lagi.',
+                ], 500);
+
+            }
+        }
     }
 
-    public function success(){
-        $tableNumber = Session::get('tableNumber', null);
-        $order = Order::where('table_number', $tableNumber)->latest()->first();
+    public function success($orderId){
+
+        $order = Order::where('order_code', $orderId)->latest()->first();
+        if(!$order){
+            return redirect()->route('menu')->with('error', 'Pesanan tidak ditemukan.');
+        }
         $orderItems = OrderItem::with('item')->where('order_id', $order->id)->get();
+
+        if ($order->payment_method === 'qris' && $order->status !== 'settlement') {
+            $order->update([
+                'status' => 'settlement'
+            ]);
+        }
+
         return view('customer.success', compact('order', 'orderItems'));
     }
 }

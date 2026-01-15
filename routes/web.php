@@ -15,4 +15,4 @@ Route::post('/menu/cart/update', [MenuController::class, 'updateCart'])->name('m
 Route::post('/menu/cart/delete', [MenuController::class, 'removeCart'])->name('menu.cart.delete');
 Route::get('/menu/checkout', [MenuController::class, 'checkout_view'])->name('menu.checkout');
 Route::post('/menu/checkout/store', [MenuController::class, 'checkout_store'])->name('menu.checkout.store');
-Route::get('/menu/success', [MenuController::class, 'success'])->name('menu.success');
+Route::get('/menu/success/{orderId}', [MenuController::class, 'success'])->name('menu.success');
