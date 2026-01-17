@@ -18,7 +18,6 @@ class Item extends Model
         'is_active',
         'category_id',
         'img',
-        'is_active',
     ];
 
     public function category(){
