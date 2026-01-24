@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
@@ -27,4 +28,7 @@ Route::resource('admin/orders', App\Http\Controllers\OrderController::class);
 Route::resource('admin/users', App\Http\Controllers\UserController::class);
 Route::resource('admin/order-items', App\Http\Controllers\OrderItemController::class);
 Route::resource('admin/roles', App\Http\Controllers\RoleController::class);
+
+Route::put('admin/order/cooked_status/{id}', [OrderController::class, 'status_cooked'])->name('order.cooked_status');
+Route::put('admin/order/confimr_status/{id}', [OrderController::class, 'order_confirm'])->name('order.order_confirm');
 

@@ -44,7 +44,7 @@
                     @endif
                     <div class="card-body">
                         <div class="d-flex">
-                            <a href="{{ route('users.create') }}" class="btn btn-primary mb-3 ms-auto"> New User</a>
+                            <a href="{{ route('users.create') }}" class="btn btn-primary mb-3 ms-auto"> Tambah User</a>
                         </div>
                         <table class="table table-striped" id="table1">
                             <thead>
@@ -54,7 +54,6 @@
                                     <th>Email</th>
                                     <th>Role</th>
                                     <th>Phone</th>
-                                    <th>Description</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -66,7 +65,6 @@
                                     <td >{{ $karyawan->email }}</td>
                                     <td >{{ $karyawan->role->name }}</td>
                                     <td >{{ $karyawan->phone }}</td>
-                                    <td >{{ $karyawan->description }}</td>
                                     <td class="d-flex gap-2 flex-wrap">
                                         <a href="{{ route('users.show', $karyawan->id) }}" class="btn btn-info btn-sm">Detail</a>
                                         <a href="{{ route('users.edit', $karyawan->id) }}" class="btn btn-warning btn-sm">Edit</a>

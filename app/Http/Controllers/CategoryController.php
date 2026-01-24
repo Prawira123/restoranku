@@ -45,7 +45,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::findOrFail($id);
-        return view('admin.Category.show', compact('category'));
+        return view('admin.Category.detail', compact('category'));
     }
 
     /**

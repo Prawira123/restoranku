@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -37,8 +38,9 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::findOrFail($id);
-        return view('admin.Order.show', compact('order'));
+        $order = Order::with('user')->findOrFail($id)->first();
+        $order_items = OrderItem::where('order_id', $order->id)->with('item')->get();
+        return view('admin.Order.detail', compact('order', 'order_items'));
     }
 
     /**
@@ -63,5 +65,28 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function status_cooked($id){
+        $order = Order::findOrFail($id);
+        $order->status = 'cooked';
+        $order->save();
+
+        return redirect()->route('orders.index')->with('success', 'Order status updated successfully.');
+    }
+
+    public function order_confirm($id){
+        $order = Order::findOrFail($id);
+        
+        if($order->status == 'pending' || $order->status == 'cooked'){
+            $order->status = 'settlement';
+        }elseif($order->status == 'settlement'){
+            $order->status = 'pending';
+        }
+
+        $order->save();
+
+        return redirect()->route('orders.index')->with('success', 'Order status updated successfully.');
+
     }
 }

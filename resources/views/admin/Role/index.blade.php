@@ -60,9 +60,9 @@
                                     <td >{{ $role->name }}</td>
                                     <td >{{ $role->description }}</td>
                                     <td class="d-flex gap-2 flex-wrap">
-                                        <a href="{{ route('categories.show', $role->id) }}" class="btn btn-info btn-sm">Detail</a>
-                                        <a href="{{ route('categories.edit', $role->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="{{ route('categories.destroy', $role->id) }}" method="post" class="d-flex">
+                                        <a href="{{ route('roles.show', $role->id) }}" class="btn btn-info btn-sm">Detail</a>
+                                        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="{{ route('roles.destroy', $role->id) }}" method="post" class="d-flex">
                                             @csrf
                                             @method('DELETE')
                                             <button onclick="return confirm('Yakin untuk menghapus data Role ini?')" class="btn btn-danger btn-sm">Delete</button>

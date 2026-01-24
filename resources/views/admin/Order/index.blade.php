@@ -58,7 +58,7 @@
                                     <th>Payment Method</th>
                                     <th>Notes</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,13 +80,16 @@
                                         <td ><span class="badge text-warning">{{ $order->status }}</span></td>
                                     @endif
                                     <td class="d-flex gap-2 flex-wrap">
-                                        <a href="{{ route('orders.show', $order->id) }}" class="btn btn-success btn-sm">Change Status</a>
                                         <a href="{{ route('orders.show', $order->id) }}" class="btn btn-info btn-sm">Detail</a>
-                                        <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="{{ route('orders.destroy', $order->id) }}" method="post" class="d-flex">
+                                        <form action="{{ route('order.cooked_status', $order->id) }}" method="post" class="d-flex">
                                             @csrf
-                                            @method('DELETE')
-                                            <button onclick="return confirm('Yakin untuk menghapus data Order ini?')" class="btn btn-danger btn-sm">Delete</button>
+                                            @method('PUT')
+                                            <button onclick="return submit()" class="btn btn-warning btn-sm">Cooked</button>
+                                        </form>                                
+                                        <form action="{{ route('order.order_confirm', $order->id) }}" method="post" class="d-flex">
+                                            @csrf
+                                            @method('PUT')
+                                            <button onclick="return submit()" class="btn btn-success btn-sm">Confirm</button>
                                         </form>                                
                                     </td>
                                 </tr>

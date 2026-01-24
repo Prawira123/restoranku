@@ -23,7 +23,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::where('id', '!=', 4)->get();
-        return view('admin.User.create');
+        return view('admin.User.create', compact('roles'));
     }
 
     /**
@@ -41,7 +41,8 @@ class UserController extends Controller
         ]);
 
         User::create([
-            'name' => $request->name,
+            'fullname' => $request->fullname,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role_id' => $request->role_id,
@@ -56,8 +57,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return view('admin.User.show', compact('user'));
+        $user = User::findOrFail($id)->with('role')->first();
+        return view('admin.User.detail', compact('user'));
     }
 
     /**
