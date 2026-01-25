@@ -42,8 +42,90 @@
         <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
-                
-                <li class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }} ">
+                @if(session('role') === 'admin')
+                    <li class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }} ">
+                        <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ request()->routeIs('orders.*') ? 'active' : '' }} ">
+                        <a href="{{ route('orders.index') }}" class='sidebar-link'>
+                            <i class="bi bi-cart-fill"></i>
+                            <span>Kelola Pesanan</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ request()->routeIs('items.*') ? 'active' : '' }} ">
+                        <a href="{{ route('items.index') }}" class='sidebar-link'>
+                            <i class="bi bi-card-list"></i>
+                            <span>Daftar Menu</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ request()->routeIs('users.*') ? 'active' : '' }} ">
+                        <a href="{{ route('users.index') }}" class='sidebar-link'>
+                            <i class="bi bi-person-fill"></i>
+                            <span>Manajemen Karyawan</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ request()->routeIs('roles.*') ? 'active' : '' }} ">
+                        <a href="{{ route('roles.index') }}" class='sidebar-link'>
+                            <i class="bi bi-person-fill"></i>
+                            <span>Manajemen Role</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ request()->routeIs('categories.*') ? 'active' : '' }} ">
+                        <a href="{{ route('categories.index') }}" class='sidebar-link'>
+                            <i class="bi bi-person-fill"></i>
+                            <span>Manajemen Category</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="menu">
+                    <li class="sidebar-item">
+                        <a href="" class="sidebar-link"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Logout</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                </ul>
+            @elseif(session('role') === 'chef')   
+                 <li class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }} ">
+                    <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('orders.*') ? 'active' : '' }} ">
+                    <a href="{{ route('orders.index') }}" class='sidebar-link'>
+                        <i class="bi bi-cart-fill"></i>
+                        <span>Kelola Pesanan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('items.*') ? 'active' : '' }} ">
+                    <a href="{{ route('items.index') }}" class='sidebar-link'>
+                        <i class="bi bi-card-list"></i>
+                        <span>Daftar Menu</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="menu">
+                <li class="sidebar-item">
+                    <a href="" class="sidebar-link"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Logout</span>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
+            @elseif(session('role') === 'cashier')
+                 <li class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }} ">
                     <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
@@ -63,36 +145,21 @@
                         <span>Daftar Menu</span>
                     </a>
                 </li>
-
-                <li class="sidebar-item {{ request()->routeIs('users.*') ? 'active' : '' }} ">
-                    <a href="{{ route('users.index') }}" class='sidebar-link'>
-                        <i class="bi bi-person-fill"></i>
-                        <span>Manajemen Karyawan</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item {{ request()->routeIs('roles.*') ? 'active' : '' }} ">
-                    <a href="{{ route('roles.index') }}" class='sidebar-link'>
-                        <i class="bi bi-person-fill"></i>
-                        <span>Manajemen Role</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item {{ request()->routeIs('categories.*') ? 'active' : '' }} ">
-                    <a href="{{ route('categories.index') }}" class='sidebar-link'>
-                        <i class="bi bi-person-fill"></i>
-                        <span>Manajemen Category</span>
-                    </a>
-                </li>
             </ul>
             <ul class="menu">
-                <li class="sidebar-item {{ request()->routeIs('categories.*') ? 'active' : '' }} ">
-                    <a href="{{ route('categories.index') }}" class='sidebar-link'>
-                        <i class="bi bi-person-fill"></i>
-                        <span>Log Out</span>
+                <li class="sidebar-item">
+                    <a href="" class="sidebar-link"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Logout</span>
                     </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </li>
             </ul>
+            @endif
         </div>
     </div>
 </div>

@@ -81,16 +81,19 @@
                                     @endif
                                     <td class="d-flex gap-2 flex-wrap">
                                         <a href="{{ route('orders.show', $order->id) }}" class="btn btn-info btn-sm">Detail</a>
-                                        <form action="{{ route('order.cooked_status', $order->id) }}" method="post" class="d-flex">
-                                            @csrf
-                                            @method('PUT')
-                                            <button onclick="return submit()" class="btn btn-warning btn-sm">Cooked</button>
-                                        </form>                                
-                                        <form action="{{ route('order.order_confirm', $order->id) }}" method="post" class="d-flex">
-                                            @csrf
-                                            @method('PUT')
-                                            <button onclick="return submit()" class="btn btn-success btn-sm">Confirm</button>
-                                        </form>                                
+                                        @if(session('role') === 'chef')
+                                            <form action="{{ route('order.cooked_status', $order->id) }}" method="post" class="d-flex">
+                                                @csrf
+                                                @method('PUT')
+                                                <button onclick="return submit()" class="btn btn-warning btn-sm">Cooked</button>
+                                            </form>  
+                                        @elseif(session('role') === 'cashier')                              
+                                            <form action="{{ route('order.order_confirm', $order->id) }}" method="post" class="d-flex">
+                                                @csrf
+                                                @method('PUT')
+                                                <button onclick="return submit()" class="btn btn-success btn-sm">Confirm</button>
+                                            </form>   
+                                        @endif                             
                                     </td>
                                 </tr>
                                 @endforeach
