@@ -86,12 +86,14 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header text-center">
                                     <h4>Grafik Penjualan</h4>
                                 </div>
-                                <div class="card-body">
-                                    <div id="chart-profile-visit"></div>
-                                </div>
+                               <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="chart-penjualan-perbulan"></canvas>
+                                    </div>
+                               </div>
                             </div>
                         </div>
                     </div>
@@ -111,4 +113,50 @@
         </footer>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    let ctxBar = document.getElementById('chart-penjualan-perbulan').getContext('2d');
+    let myBar = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            datasets: [{
+                label: 'Total Penjualan',
+                data: [],
+                backgroundColor: '#3f51b5',
+                borderColor: '#3f51b5',
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Grafik Penjualan Perbulan'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    function updateData(){
+        fetch('/dashboard/penjualan_perbulan')
+            .then(response => response.json())
+            .then(output => {
+                // isi label & data
+                myBar.data.labels = output.labels;
+                myBar.data.datasets[0].data = output.data;
+                myBar.update();
+            })
+            .catch(err => console.error(err));
+    }
+
+    updateData();
+</script>
 @endsection

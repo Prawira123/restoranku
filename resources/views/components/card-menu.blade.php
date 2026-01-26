@@ -1,4 +1,4 @@
-@foreach ($menus as $menu)
+@forelse ($menus as $menu)
     <div class="col-md-6 col-lg-6 col-xl-4">
         <div class="rounded position-relative fruite-item">
             <div class="fruite-img">
@@ -21,5 +21,7 @@
             </div>
         </div>
     </div>
-@endforeach
+@empty
+    <h3 class="text-center text-primary">Menu yang ada cari tidak ada :(</h3>
+@endforelse
                                     

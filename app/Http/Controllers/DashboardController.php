@@ -17,4 +17,28 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.index', compact('pesanan', 'totalPendapatan', 'menu', 'karyawan'));
     }
+
+    public function penjualan_perbulan(){
+
+        $data = Order::selectRaw(
+            'YEAR(created_at) as year, MONTH(created_at) as month, SUM(grand_total) as total'
+        )
+        ->groupBy('year', 'month')
+        ->orderBy('year', 'asc')
+        ->orderBy('month', 'asc')
+        ->get();
+
+        $labels = [];
+        $totals = [];
+
+        foreach($data as $item){
+            $labels [] = date('F Y', mktime(0, 0, 0, $item->month, 1, $item->year));
+            $totals [] = $item->total;
+        }
+
+        return response()->json([
+            'data' => $totals,
+            'labels' => $labels,
+        ]);
+    }
 }

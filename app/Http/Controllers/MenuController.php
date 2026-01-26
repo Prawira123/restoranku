@@ -12,12 +12,30 @@ use Illuminate\Support\Facades\Session;
 
 class MenuController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
         $tableNumber = request()->query('meja');
 
         if($tableNumber){
             Session::put('tableNumber', $tableNumber); 
+        }
+
+        $makanan = $request->query('makanan');
+        if($makanan){
+            $menus = Item::with('category')->where('is_active', true)->where('category_id', $makanan)->get();
+            return view('customer.menu', compact('menus', 'tableNumber'));
+        }
+
+        $minuman = $request->query('minuman');
+        if($minuman){
+            $menus = Item::with('category')->where('is_active', true)->where('category_id', $minuman)->get();
+            return view('customer.menu', compact('menus', 'tableNumber'));
+        }
+
+        $search = $request->query('search');
+        if($search){
+            $menus = Item::with('category')->where('is_active', true)->where('name', 'like', '%' . $search . '%')->get();
+            return view('customer.menu', compact('menus', 'tableNumber'));
         }
 
         $menus = Item::with('category')->where('is_active', true)->get();

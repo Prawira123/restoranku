@@ -22,8 +22,33 @@
                         <div class="row g-3">
                             <div class="col-lg">
                                 <div class="row g-4 justify-content-center">
-                                    
-                                    <x-card-menu :menus="$menus" />
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex justify-content-start align-items-center gap-2">
+                                            <div class="">
+                                                <a href="{{ route('menu') }}" 
+                                                class="btn {{ request()->has('makanan') ? 'btn-secondary' : 'btn-primary' }} text-white">
+                                                All
+                                                </a>
+
+                                                <a href="{{ route('menu', ['makanan' => 1]) }} text-white" 
+                                                class="btn {{ request('makanan') == 1 ? 'btn-primary' : 'btn-secondary' }} text-white">
+                                                Makanan
+                                                </a>
+
+                                                <a href="{{ route('menu', ['makanan' => 2]) }}" 
+                                                class="btn {{ request('makanan') == 2 ? 'btn-primary' : 'btn-secondary' }} text-white">
+                                                Minuman
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-start align-items-center gap-2">
+                                            <form action="{{ route('menu') }}" method="get" class="d-flex justify-content-start align-items-center gap-2">
+                                                <input type="text" name="search" class="form-control" placeholder="mau pesen apa...">
+                                                <button class="btn btn-primary text-white" type="submit">Cari</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                        <x-card-menu :menus="$menus" />
                                     <!-- Pagination -->
                                     <!-- <div class="col-12">
                                         <div class="pagination d-flex justify-content-center mt-5">

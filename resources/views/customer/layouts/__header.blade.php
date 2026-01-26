@@ -27,4 +27,9 @@
 
         <!-- Template Stylesheet -->
         <link href="{{ asset('assets/customer/css/style.css') }}" rel="stylesheet">
+        <style>
+            .active{
+                box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+            }
+        </style>
     </head>

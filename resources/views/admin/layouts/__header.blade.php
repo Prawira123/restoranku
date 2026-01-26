@@ -12,10 +12,17 @@
     <link rel="stylesheet" crossorigin href="{{ asset('assets/admin/compiled/css/app.css') }}">
     <link rel="stylesheet" crossorigin href="{{ asset('assets/admin/compiled/css/app-dark.css') }}">
     <link rel="stylesheet" crossorigin href="{{ asset('assets/admin/compiled/css/iconly.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/extensions/simple-datatables/style.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/compiled/css/table-datatable.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/extensions/simple-datatables/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/compiled/css/table-datatable.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @yield('css')
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
 </head>
 <body>
     <script src="{{ asset('assets/admin/static/js/initTheme.js') }}"></script>

@@ -15,11 +15,12 @@ Route::get('/login', function () {
 
 Route::middleware('auth')->group( function (){
     Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware(['role:admin,chef,cashier']);
+    Route::get('/dashboard/penjualan_perbulan', [DashboardController::class, 'penjualan_perbulan'])->name('dashboard.penjualan-perbulan')->middleware(['role:admin']);
 
     Route::resource('admin/categories', App\Http\Controllers\CategoryController::class)->middleware(['role:admin']);
     Route::resource('items', App\Http\Controllers\ItemController::class)->middleware(['role:admin,chef,cashier']);
     Route::get('admin/items/status/change/{id}', [App\Http\Controllers\ItemController::class, 'changeStatus'])->name('items.status.change')->middleware(['role:admin']);
-    Route::resource('orders', App\Http\Controllers\OrderController::class)->middleware(['role: admin,chef,cashier']);
+    Route::resource('orders', App\Http\Controllers\OrderController::class)->middleware(['role:admin,chef,cashier']);
     Route::resource('admin/users', App\Http\Controllers\UserController::class)->middleware(['role:admin']);
     Route::resource('order-items', App\Http\Controllers\OrderItemController::class)->middleware(['role:admin,chef,cashier']);
     Route::resource('admin/roles', App\Http\Controllers\RoleController::class)->middleware(['role:admin']);

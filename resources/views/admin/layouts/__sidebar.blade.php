@@ -75,7 +75,7 @@
                     </li>
                     <li class="sidebar-item {{ request()->routeIs('categories.*') ? 'active' : '' }} ">
                         <a href="{{ route('categories.index') }}" class='sidebar-link'>
-                            <i class="bi bi-person-fill"></i>
+                            <i class="bi bi-grid-fill"></i>
                             <span>Manajemen Category</span>
                         </a>
                     </li>
